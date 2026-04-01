@@ -14,6 +14,11 @@ targets:
     platform: iOS
     sources:
       - path: Sources/ManaGuildsApp
+      - path: Resources/Assets.xcassets
+        buildPhase: resources
+        excludes:
+          - "**/.DS_Store"
+          - "GuildSymbols"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.paulo.mana-guilds.app

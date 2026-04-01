@@ -10,16 +10,26 @@
 		3A266DAAC0BCF0FFEAC65C99 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D0880FF4146DCF800F2A3A3 /* ContentView.swift */; };
 		85951A98E02B39CCF9041E62 /* ManaGuildsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4FF23F6BC65415535F5E7E /* ManaGuildsApp.swift */; };
 		9A0FADBD4444914B873DB67C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4953767C632A4356942E9E35 /* Models.swift */; };
+		E4BF5F4FAE14C7A74F28FBE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69CA91B9B7F988BC90D60627 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3D0880FF4146DCF800F2A3A3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4953767C632A4356942E9E35 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		60EFFD00C103B6756A0A034F /* ManaGuildsApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ManaGuildsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69CA91B9B7F988BC90D60627 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B4FF23F6BC65415535F5E7E /* ManaGuildsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManaGuildsApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		6EDFA2D981B7F6B40CE2C283 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				69CA91B9B7F988BC90D60627 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		7E8918F8DA3CD6B7B8077365 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -43,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				7FFA2BB75075BD321D2FD141 /* ManaGuildsApp */,
+				6EDFA2D981B7F6B40CE2C283 /* Resources */,
 				7E8918F8DA3CD6B7B8077365 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +66,7 @@
 			buildConfigurationList = 76586392A98B0A59C9571506 /* Build configuration list for PBXNativeTarget "ManaGuildsApp" */;
 			buildPhases = (
 				A58B1C728286ECA8E0BE896E /* Sources */,
+				0D2EDDE1C21DCE55B4635F93 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -94,6 +106,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0D2EDDE1C21DCE55B4635F93 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4BF5F4FAE14C7A74F28FBE7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A58B1C728286ECA8E0BE896E /* Sources */ = {

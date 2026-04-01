@@ -7,6 +7,14 @@ struct ContentView: View {
         Guild.all.filter { $0.colors.isSubset(of: selectedColors) }
     }
 
+    private var matchingClans: [TarkirClan] {
+        TarkirClan.all.filter { $0.colors.isSubset(of: selectedColors) }
+    }
+
+    private var matchingShards: [AlaraShard] {
+        AlaraShard.all.filter { $0.colors.isSubset(of: selectedColors) }
+    }
+
     private var selectedColorNames: String {
         selectedColors.orderedColors.map(\.name).joined(separator: ", ")
     }
@@ -30,11 +38,13 @@ struct ContentView: View {
                         headerCard
                         colorPickerSection
                         guildSection
+                        clanSection
+                        shardSection
                     }
                     .padding(20)
                 }
             }
-            .navigationTitle("Guildas de Magic")
+            .navigationTitle("Faccoes de Magic")
         }
     }
 
@@ -44,7 +54,7 @@ struct ContentView: View {
                 .font(.title2.weight(.bold))
                 .foregroundStyle(.white)
 
-            Text("Ao combinar as cores, o app mostra quais guildas de Ravnica existem dentro dessa seleção.")
+            Text("Ao combinar as cores, o app mostra as guildas de Ravnica, os Tarkir Clans e os Alara Shards contidos nessa selecao.")
                 .font(.body)
                 .foregroundStyle(.white.opacity(0.82))
 
@@ -86,7 +96,7 @@ struct ContentView: View {
     private var guildSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text("Guildas encontradas")
+                Text("Guildas de Ravnica")
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(.white)
 
@@ -103,6 +113,80 @@ struct ContentView: View {
         }
     }
 
+    private var clanSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack {
+                Text("Tarkir Clans")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white)
+
+                Spacer()
+
+                Text("\(matchingClans.count)")
+                    .font(.headline.monospacedDigit())
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+
+            if matchingClans.isEmpty {
+                Text("Selecione pelo menos tres cores para revelar os Tarkir Clans.")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.72))
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.white.opacity(0.08))
+                    .clipShape(.rect(cornerRadius: 18))
+            } else {
+                ForEach(matchingClans) { clan in
+                    TricolorFactionCard(
+                        name: clan.name,
+                        fullName: clan.fullName,
+                        subtitle: clan.subtitle,
+                        focus: clan.focus,
+                        colors: clan.colors,
+                        assetName: clan.assetName
+                    )
+                }
+            }
+        }
+    }
+
+    private var shardSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack {
+                Text("Alara Shards")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white)
+
+                Spacer()
+
+                Text("\(matchingShards.count)")
+                    .font(.headline.monospacedDigit())
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+
+            if matchingShards.isEmpty {
+                Text("Selecione pelo menos tres cores para revelar os Alara Shards.")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.72))
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.white.opacity(0.08))
+                    .clipShape(.rect(cornerRadius: 18))
+            } else {
+                ForEach(matchingShards) { shard in
+                    TricolorFactionCard(
+                        name: shard.name,
+                        fullName: shard.fullName,
+                        subtitle: shard.subtitle,
+                        focus: shard.focus,
+                        colors: shard.colors,
+                        assetName: shard.assetName
+                    )
+                }
+            }
+        }
+    }
+
     private func toggle(_ color: ManaColor) {
         if selectedColors.contains(color) {
             guard selectedColors.count > 2 else { return }
@@ -110,6 +194,86 @@ struct ContentView: View {
         } else {
             selectedColors.insert(color)
         }
+    }
+}
+
+private struct TricolorFactionCard: View {
+    let name: String
+    let fullName: String
+    let subtitle: String
+    let focus: String
+    let colors: Set<ManaColor>
+    let assetName: String?
+
+    var body: some View {
+        HStack(spacing: 14) {
+            TricolorFactionSymbolView(colors: colors, assetName: assetName)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(name)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+
+                Text(fullName)
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.88))
+
+                Text(subtitle)
+                    .font(.footnote)
+                    .foregroundStyle(.white.opacity(0.72))
+
+                Text(focus)
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.62))
+            }
+
+            Spacer()
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.white.opacity(0.10))
+        .clipShape(.rect(cornerRadius: 20))
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(.white.opacity(0.10), lineWidth: 1)
+        )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(fullName), \(subtitle)")
+    }
+}
+
+private struct TricolorFactionSymbolView: View {
+    let colors: Set<ManaColor>
+    let assetName: String?
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 18)
+                .fill(.white.opacity(0.08))
+
+            if let assetName {
+                Image(assetName)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(10)
+                    .colorMultiply(.white)
+            } else {
+                HStack(spacing: 6) {
+                    ForEach(colors.orderedColors) { color in
+                        Circle()
+                            .fill(color.tint)
+                            .frame(width: 14, height: 14)
+                            .overlay(Circle().stroke(.white.opacity(0.5), lineWidth: 1))
+                    }
+                }
+            }
+        }
+        .frame(width: 62, height: 62)
+        .overlay(
+            RoundedRectangle(cornerRadius: 18)
+                .stroke(.white.opacity(0.12), lineWidth: 1)
+        )
+        .accessibilityHidden(true)
     }
 }
 
